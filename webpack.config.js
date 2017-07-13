@@ -6,7 +6,7 @@ const webpack = require('webpack');
  * This path assumes that Carbon Fields and the current template
  * are both in the `/vendor` directory inside your theme - change the path if needed.
  */
-const root = path.resolve(__dirname, 'vendor/htmlburger/carbon-fields');
+const root = path.resolve(__dirname, '../../htmlburger/carbon-fields');
 
 if (!fs.existsSync(root)) {
     console.error('Could not find Carbon Fields folder.');
