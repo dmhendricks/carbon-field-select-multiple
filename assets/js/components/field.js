@@ -21,7 +21,7 @@ import withSetup from 'fields/decorators/with-setup';
  * @param  {Function}      props.handleChange
  * @return {React.Element}
  */
-export const YOURFIELDNAMEField = ({
+export const Select2Field = ({
 	name,
 	field,
 	handleChange
@@ -46,7 +46,7 @@ export const YOURFIELDNAMEField = ({
  *
  * @type {Object}
  */
-YOURFIELDNAMEField.propTypes = {
+Select2Field.propTypes = {
 	name: PropTypes.string,
 	field: PropTypes.shape({
 		id: PropTypes.string,
@@ -83,6 +83,5 @@ export const enhance = compose(
 );
 
 export default setStatic('type', [
-	'yourfieldname',
-])(enhance(YOURFIELDNAMEField));
-
+	'select2',
+])(enhance(Select2Field));
