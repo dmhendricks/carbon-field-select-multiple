@@ -29,6 +29,7 @@
     "redux": "^3.6.0",
     "redux-actions": "^2.0.1",
     "redux-saga": "^0.14.6",
-    "reselect": "^3.0.0"
+    "reselect": "^3.0.0",
+    "select2": "^4.0.0"
   }
 }
