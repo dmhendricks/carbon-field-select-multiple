@@ -1,11 +1,11 @@
 {
-  "name": "carbon-field-YOURFIELDNAME",
-  "version": "1.0.0",
+  "name": "carbon-field-select2",
+  "version": "0.8.0",
   "scripts": {
     "dev": "webpack -w",
     "build": "webpack"
   },
-  "license": "MIT",
+  "license": "GPL-3.0",
   "devDependencies": {
     "babel-core": "^6.23.1",
     "babel-loader": "^6.3.2",

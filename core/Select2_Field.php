@@ -1,10 +1,10 @@
 <?php
 
-namespace Carbon_Field_YOURFIELDNAME;
+namespace Carbon_Field_Select2;
 
 use Carbon_Fields\Field\Field;
 
-class YOURFIELDNAME_Field extends Field {
+class Select2_Field extends Field {
 
 	/**
 	 * Minimum value
@@ -32,10 +32,10 @@ class YOURFIELDNAME_Field extends Field {
 	 * Called once per field type when activated
 	 */
 	public static function field_type_activated() {
-		$dir = \Carbon_Field_YOURFIELDNAME\DIR . '/languages/';
+		$dir = \Carbon_Field_Select2\DIR . '/languages/';
 		$locale = get_locale();
 		$path = $dir . $locale . '.mo';
-		load_textdomain( 'carbon-field-YOURFIELDNAME', $path );
+		load_textdomain( 'carbon-field-select2', $path );
 	}
 
 	/**
@@ -43,13 +43,13 @@ class YOURFIELDNAME_Field extends Field {
 	 * Called once per field type
 	 */
 	public static function admin_enqueue_scripts() {
-		$root_uri = \Carbon_Fields\Carbon_Fields::directory_to_url( \Carbon_Field_YOURFIELDNAME\DIR );
+		$root_uri = \Carbon_Fields\Carbon_Fields::directory_to_url( \Carbon_Field_Select2\DIR );
 
 		# Enqueue JS
-		wp_enqueue_script( 'carbon-field-YOURFIELDNAME', $root_uri . '/assets/js/bundle.js', array( 'carbon-fields-boot' ) );
+		wp_enqueue_script( 'carbon-field-select2', $root_uri . '/assets/js/bundle.js', array( 'carbon-fields-boot' ) );
 
 		# Enqueue CSS
-		wp_enqueue_style( 'carbon-field-YOURFIELDNAME', $root_uri . '/assets/css/field.css' );
+		wp_enqueue_style( 'carbon-field-select2', $root_uri . '/assets/css/field.css' );
 	}
 
 	/**

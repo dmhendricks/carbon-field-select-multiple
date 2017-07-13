@@ -1,20 +1,30 @@
 {
-    "name": "htmlburger/carbon-field-YOURFIELDNAME",
-    "description": "Carbon Fields extension, that adds a YOURFIELDNAME field type.",
-    "keywords": ["wordpress", "carbon-field", "carbon-field-YOURFIELDNAME"],
-    "homepage": "",
+    "name": "dmhendricks/carbon-field-select2",
+    "description": "A custom field for Carbon Fields for Select2-style select dropdowns.",
+    "keywords": ["wordpress", "carbon-field", "carbon-field-select2", "select2"],
+    "homepage": "https://github.com/dmhendricks/carbon-field-select2",
     "type": "library",
-    "license": "GPL-2.0+",
-    "authors": [],
+    "license": "GPL-3.0",
+    "authors": [
+      {
+        "name": "Daniel M. Hendricks",
+        "homepage": "https://danhendricks.com",
+        "role": "Developer"
+      }
+    ],
+    "support": {
+      "issues": "https://github.com/dmhendricks/carbon-field-select2/issues/",
+      "wiki": "https://github.com/dmhendricks/carbon-field-select2/wiki/",
+      "source": "https://github.com/dmhendricks/carbon-field-select2/"
+    },
     "require": {
-        "htmlburger/carbon-fields": "^2.0"
     },
     "autoload": {
         "files": [
             "field.php"
         ],
         "psr-4": {
-            "Carbon_Field_YOURFIELDNAME\\": "core/"
+            "Carbon_Field_Select2\\": "core/"
         }
     }
 }
