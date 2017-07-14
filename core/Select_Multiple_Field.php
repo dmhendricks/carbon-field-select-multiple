@@ -1,10 +1,10 @@
 <?php
 
-namespace Carbon_Field_Select2;
+namespace Carbon_Field_Select_Multiple;
 use Carbon_Fields\Field\Predefined_Options_Field;
 use Carbon_Fields\Value_Set\Value_Set;
 
-class Select2_Field extends Predefined_Options_Field {
+class Select_Multiple_Field extends Predefined_Options_Field {
 
 	/**
 	 * Enable multiple selections
@@ -44,10 +44,10 @@ class Select2_Field extends Predefined_Options_Field {
 	 * Called once per field type when activated
 	 */
 	public static function field_type_activated() {
-		$dir = \Carbon_Field_Select2\DIR . '/languages/';
+		$dir = \Carbon_Field_Select_Multiple\DIR . '/languages/';
 		$locale = get_locale();
 		$path = $dir . $locale . '.mo';
-		load_textdomain( 'carbon-field-select2', $path );
+		load_textdomain( 'carbon-field-select-multiple', $path );
 	}
 
 	/**
@@ -55,13 +55,13 @@ class Select2_Field extends Predefined_Options_Field {
 	 * Called once per field type
 	 */
 	public static function admin_enqueue_scripts() {
-		$root_uri = \Carbon_Fields\Carbon_Fields::directory_to_url( \Carbon_Field_Select2\DIR );
+		$root_uri = \Carbon_Fields\Carbon_Fields::directory_to_url( \Carbon_Field_Select_Multiple\DIR );
 
 		# Enqueue JS
-		wp_enqueue_script( 'carbon-field-select2', $root_uri . '/assets/js/bundle.js', array( 'carbon-fields-boot' ) );
+		wp_enqueue_script( 'carbon-field-select-multiple', $root_uri . '/assets/js/bundle.js', array( 'carbon-fields-boot' ) );
 
 		# Enqueue CSS
-		wp_enqueue_style( 'carbon-field-select2', $root_uri . '/assets/css/field.css' );
+		wp_enqueue_style( 'carbon-field-select-multiple', $root_uri . '/assets/css/field.css' );
 	}
 
 	/**

@@ -1,8 +1,8 @@
 {
-    "name": "dmhendricks/carbon-field-select2",
-    "description": "A custom field for Carbon Fields for Select2-style select dropdowns.",
-    "keywords": ["wordpress", "carbon-field", "carbon-field-select2", "select2"],
-    "homepage": "https://github.com/dmhendricks/carbon-field-select2",
+    "name": "dmhendricks/carbon-field-select-multiple",
+    "description": "A custom multiple select field for Carbon Fields with optional Select2 support.",
+    "keywords": ["wordpress", "carbon-field", "carbon-field-select-multiple", "select", "multiple", "dropdown", "select2"],
+    "homepage": "https://github.com/dmhendricks/carbon-field-select-multiple",
     "type": "library",
     "license": "GPL-3.0",
     "authors": [
@@ -13,9 +13,9 @@
       }
     ],
     "support": {
-      "issues": "https://github.com/dmhendricks/carbon-field-select2/issues/",
-      "wiki": "https://github.com/dmhendricks/carbon-field-select2/wiki/",
-      "source": "https://github.com/dmhendricks/carbon-field-select2/"
+      "issues": "https://github.com/dmhendricks/carbon-field-select-multiple/issues/",
+      "wiki": "https://github.com/dmhendricks/carbon-field-select-multiple/wiki/",
+      "source": "https://github.com/dmhendricks/carbon-field-select-multiple/"
     },
     "require": {
       "htmlburger/carbon-fields": "^2.0"
@@ -25,7 +25,7 @@
             "field.php"
         ],
         "psr-4": {
-            "Carbon_Field_Select2\\": "core/"
+            "Carbon_Field_Select_Multiple\\": "core/"
         }
     }
 }

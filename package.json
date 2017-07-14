@@ -1,6 +1,6 @@
 {
-  "name": "carbon-field-select2",
-  "version": "0.8.0",
+  "name": "carbon-field-select-multiple",
+  "version": "0.1.0",
   "scripts": {
     "dev": "webpack -w",
     "build": "webpack"

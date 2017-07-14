@@ -24,7 +24,7 @@ import withSetup from 'fields/decorators/with-setup';
  * @param  {Function}      props.handleChange
  * @return {React.Element}
  */
-export const Select2Field = ({
+export const SelectMultipleField = ({
 	name,
 	field,
 	handleChange
@@ -54,7 +54,7 @@ export const Select2Field = ({
  *
  * @type {Object}
  */
-Select2Field.propTypes = {
+SelectMultipleField.propTypes = {
 	name: PropTypes.string,
 	field: PropTypes.shape({
 		id: PropTypes.string,
@@ -152,5 +152,5 @@ export const enhance = compose(
 );
 
 export default setStatic('type', [
-	'select2',
-])(enhance(Select2Field));
+	'select_multiple',
+])(enhance(SelectMultipleField));
