@@ -1,31 +1,43 @@
 <?php
 
 namespace Carbon_Field_Select2;
+use Carbon_Fields\Field\Predefined_Options_Field;
+use Carbon_Fields\Value_Set\Value_Set;
 
-use Carbon_Fields\Field\Field;
-
-class Select2_Field extends Field {
-
-	/**
-	 * Minimum value
-	 *
-	 * @var null|float
-	 */
-	protected $min = null;
+class Select2_Field extends Predefined_Options_Field {
 
 	/**
-	 * Maximum value
+	 * Enable multiple selections
 	 *
-	 * @var null|float
+	 * @see set_multiple()
+	 * @var bool
 	 */
-	protected $max = null;
+	protected $multiple = false;
 
 	/**
-	 * Step/interval between allowed values
+	 * The options limit.
 	 *
-	 * @var null|float
+	 * @var int
 	 */
-	protected $step = null;
+	protected $limit_options = 0;
+
+	/**
+	 * Default field value
+	 *
+	 * @var array
+	 */
+	protected $default_value = array();
+
+	/**
+	 * Create a field from a certain type with the specified label.
+	 *
+	 * @param string $type  Field type
+	 * @param string $name  Field name
+	 * @param string $label Field label
+	 */
+	public function __construct( $type, $name, $label ) {
+		parent::__construct( $type, $name, $label );
+	}
 
 	/**
 	 * Prepare the field type for use
@@ -55,35 +67,20 @@ class Select2_Field extends Field {
 	/**
 	 * Load the field value from an input array based on it's name
 	 *
-	 * @param array $input Array of field names and values.
+	 * @param  array $input Array of field names and values.
+	 * @return Field $this
 	 */
 	public function set_value_from_input( $input ) {
-		parent::set_value_from_input( $input );
-
-		$value = $this->get_value();
-		if ( $value === '' ) {
-			return;
-		}
-
-		$value = floatval( $value );
-
-		if ( $this->min !== null ) {
-			$value = max( $value, $this->min );
-		}
-
-		if ( $this->max !== null ) {
-			$value = min( $value, $this->max );
-		}
-
-		if ( $this->step !== null ) {
-			$step_base = ( $this->min !== null ) ? $this->min : 0;
-			$is_valid_step_value = ( $value - $step_base ) % $this->step === 0;
-			if ( ! $is_valid_step_value ) {
-				$value = $step_base; // value is not valid - reset it to a base value
+		if ( ! isset( $input[ $this->name ] ) ) {
+			$this->set_value( $this->multiple ? array() : '' );
+		} else {
+			$value = stripslashes_deep( $input[ $this->name ] );
+			if ( is_array( $value ) ) {
+				$value = $this->multiple ? array_values( $value ) : ''; //$value[0];
 			}
+			$this->set_value( $value );
 		}
-
-		$this->set_value( $value );
+		return $this;
 	}
 
 	/**
@@ -92,6 +89,16 @@ class Select2_Field extends Field {
 	 * @param bool $load  Should the value be loaded from the database or use the value from the current instance.
 	 * @return array
 	 */
+	public function to_json( $load ) {
+			$field_data = parent::to_json( $load );
+			$field_data = array_merge( $field_data, array(
+				'limit_options' => $this->limit_options,
+				'options' => $this->parse_options( $this->get_options() ),
+				'multiple' => $this->multiple
+			) );
+			return $field_data;
+		}
+	/*
 	public function to_json( $load ) {
 		$field_data = parent::to_json( $load );
 
@@ -103,37 +110,28 @@ class Select2_Field extends Field {
 
 		return $field_data;
 	}
+	*/
 
 	/**
-	 * Set field minimum value. Default: null
+	 * Whether or not this value should be auto loaded. Applicable to theme options only.
 	 *
-	 * @param null|float $min
+	 * @param  bool  $autoload
 	 * @return Field $this
 	 */
-	function set_min( $min ) {
-		$this->min = floatval( $min );
+	public function set_multiple( $multiple ) {
+		$this->multiple = $multiple;
+		$this->set_value_set( new Value_Set( Value_Set::TYPE_MULTIPLE_VALUES ) );
 		return $this;
 	}
 
 	/**
-	 * Set field maximum value. Default: null
+	 * Set the number of the options to be displayed at the initial field display.
 	 *
-	 * @param null|float $max
-	 * @return Field $this
+	 * @param  int $limit
 	 */
-	function set_max( $max ) {
-		$this->max = floatval( $max );
+	public function limit_options( $limit ) {
+		$this->limit_options = $limit;
 		return $this;
 	}
 
-	/**
-	 * Set field step value. Default: null
-	 *
-	 * @param null|float $step
-	 * @return Field $this
-	 */
-	function set_step( $step ) {
-		$this->step = floatval( $step );
-		return $this;
-	}
 }
