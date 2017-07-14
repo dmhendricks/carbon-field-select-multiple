@@ -7,12 +7,20 @@ use Carbon_Fields\Value_Set\Value_Set;
 class Select_Multiple_Field extends Predefined_Options_Field {
 
 	/**
+	 * Set the style of the select element
+	 *
+	 * @see set_multiple()
+	 * @var bool
+	 */
+	protected $method = 'multiple';
+
+	/**
 	 * Enable multiple selections
 	 *
 	 * @see set_multiple()
 	 * @var bool
 	 */
-	protected $tags = false;
+	protected $multiple = true;
 
 	/**
 	 * The options limit.
@@ -72,13 +80,13 @@ class Select_Multiple_Field extends Predefined_Options_Field {
 	 */
 	public function set_value_from_input( $input ) {
 		if ( ! isset( $input[ $this->name ] ) ) {
-			$this->set_value( $this->tags ? array() : '' );
+			$this->set_value( array() );
 		} else {
 			$value = stripslashes_deep( $input[ $this->name ] );
 			if ( is_array( $value ) ) {
-				$value = $this->tags ? array_values( $value ) : ''; //$value[0];
+				$value = $this->multiple ? array_values( $value ) : ''; //$value[0];
 			}
-			$this->set_value( $value );
+			$this->set_value( array($value) );
 		}
 		return $this;
 	}
@@ -92,35 +100,29 @@ class Select_Multiple_Field extends Predefined_Options_Field {
 	public function to_json( $load ) {
 			$field_data = parent::to_json( $load );
 			$field_data = array_merge( $field_data, array(
-				'limit_options' => $this->limit_options,
 				'options' => $this->parse_options( $this->get_options() ),
-				'tags' => $this->tags
+				'limit_options' => $this->limit_options,
+				'method' => $this->method,
+				'multiple' => $this->multiple
 			) );
 			return $field_data;
 		}
-	/*
-	public function to_json( $load ) {
-		$field_data = parent::to_json( $load );
-
-		$field_data = array_merge( $field_data, array(
-			'min' => $this->min,
-			'max' => $this->max,
-			'step' => $this->step,
-		) );
-
-		return $field_data;
-	}
-	*/
 
 	/**
 	 * Whether or not this value should be auto loaded. Applicable to theme options only.
 	 *
-	 * @param  bool  $autoload
+	 * @param  bool  $method
 	 * @return Field $this
 	 */
-	public function use_tags( $tags = true ) {
-		$this->tags = $tags;
-		$this->set_value_set( new Value_Set( Value_Set::TYPE_MULTIPLE_VALUES ) );
+	public function set_method( $method = 'multiple' ) {
+		if(!in_array($method, array('multiple', 'select2', 'tags'))) $method = 'multiple';
+
+		$this->method = $method;
+		if(in_array($method, array('multiple', 'tags'))) {
+			$this->set_value_set( new Value_Set( Value_Set::TYPE_MULTIPLE_VALUES ) );
+		} else if($method) {
+			$this->multiple = false;
+		}
 		return $this;
 	}
 

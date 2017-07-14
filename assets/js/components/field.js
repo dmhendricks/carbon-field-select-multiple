@@ -33,11 +33,10 @@ export const SelectMultipleField = ({
 		<select
 			id={field.id}
 			name={name}
-			multiple={field.tags}
+			multiple={field.method != 'select2'}
 			onChange={handleChange}
 			disabled={!field.ui.is_visible}
 			value={field.value} >
-
 			{
 				field.options.map(({ name, value }, index) => {
 					return <option key={index} value={value}>
@@ -58,8 +57,9 @@ SelectMultipleField.propTypes = {
 	name: PropTypes.string,
 	field: PropTypes.shape({
 		id: PropTypes.string,
-		value: PropTypes.tags ? PropTypes.array : PropTypes.any,
-		multiple: PropTypes.tags,
+		value: PropTypes.multiple ? PropTypes.array : PropTypes.any,
+		multiple: PropTypes.bool,
+		method: PropTypes.string,
 		options: PropTypes.arrayOf(PropTypes.shape({
 			name: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 			value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -106,20 +106,25 @@ export const enhance = compose(
 					} = this.props;
 
 					// Initialize Select2
-					$('.carbon-select_multiple select').select2();
-					$('.select2-container').waitUntilExists(function() {
-						var select2_container_parent = $(this).parent().parent();
-						$(this).css('width', '').css('min-width', select2_container_parent.css('flex-basis'));
-						select2_container_parent.css('flex-basis', '');
-					});
+					if(field.method == 'select2' || field.method == 'tags') {
+						$('.carbon-select_multiple select').select2();
+						$('.select2-container').waitUntilExists(function() {
+							var select2_container_parent = $(this).parent().parent();
+							$(this).css('width', '').css('min-width', select2_container_parent.css('flex-basis'));
+							select2_container_parent.css('flex-basis', '');
+						});
+					}
 
 					setupField(field.id, field.type, ui);
+
+					console.log(field.multiple);
+					console.log(field.method);
 
 					// If the field doesn't have a value,
 					// use the first option as fallback.
 					// in addition, make sure the first
 					// option value is not already the same (i.e. empty)
-					if(field.tags) {
+					if(!field.multiple) {
 						const firstOption = field.options[0].value;
 						if (!field.value && field.value !== firstOption) {
 							setFieldValue(field.id, firstOption, 'set', false);
@@ -138,15 +143,18 @@ export const enhance = compose(
 			 * Pass some handlers to the component.
 			 */
 			withHandlers({
+				/*
 				handleChange: ({ field, setFieldValue }) => ({ target }) => !field.multiple ? setFieldValue(field.id, value) : setFieldValue(field.id,
 					target.selected
 					? [...field.value, target.value]
 					: without(field.value, target.value)
 				),
+				*/
+				handleChange: ({ field, setFieldValue }) => ({ target }) => setFieldValue(field.id, value),
 
-				isSelected: ({ field }) => option => field.value.indexOf(String(option.value)) > -1,
-				isHidden: ({ field, expanded }) => index => index + 1 > field.limit_options && field.limit_options > 0 && !expanded,
-				showAllOptions: ({ setExpanded }) => preventDefault(() => setExpanded(true)),
+				//isSelected: ({ field }) => option => field.value.indexOf(String(option.value)) > -1,
+				//isHidden: ({ field, expanded }) => index => index + 1 > field.limit_options && field.limit_options > 0 && !expanded,
+				//showAllOptions: ({ setExpanded }) => preventDefault(() => setExpanded(true)),
 			})
 		),
 
