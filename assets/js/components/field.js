@@ -33,7 +33,7 @@ export const SelectMultipleField = ({
 		<select
 			id={field.id}
 			name={name}
-			multiple={field.multiple}
+			multiple={field.tags}
 			onChange={handleChange}
 			disabled={!field.ui.is_visible}
 			value={field.value} >
@@ -58,8 +58,8 @@ SelectMultipleField.propTypes = {
 	name: PropTypes.string,
 	field: PropTypes.shape({
 		id: PropTypes.string,
-		value: PropTypes.multiple ? PropTypes.array : PropTypes.any,
-		multiple: PropTypes.multiple,
+		value: PropTypes.tags ? PropTypes.array : PropTypes.any,
+		multiple: PropTypes.tags,
 		options: PropTypes.arrayOf(PropTypes.shape({
 			name: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 			value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -104,8 +104,14 @@ export const enhance = compose(
 						setupValidation,
 						setFieldValue,
 					} = this.props;
-					console.log($('.carbon-select2').length);
-					$('.carbon-select2 select').select2();
+
+					// Initialize Select2
+					$('.carbon-select_multiple select').select2();
+					$('.select2-container').waitUntilExists(function() {
+						var select2_container_parent = $(this).parent().parent();
+						$(this).css('width', '').css('min-width', select2_container_parent.css('flex-basis'));
+						select2_container_parent.css('flex-basis', '');
+					});
 
 					setupField(field.id, field.type, ui);
 
@@ -113,7 +119,7 @@ export const enhance = compose(
 					// use the first option as fallback.
 					// in addition, make sure the first
 					// option value is not already the same (i.e. empty)
-					if(field.multiple) {
+					if(field.tags) {
 						const firstOption = field.options[0].value;
 						if (!field.value && field.value !== firstOption) {
 							setFieldValue(field.id, firstOption, 'set', false);

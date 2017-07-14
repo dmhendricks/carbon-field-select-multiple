@@ -12,7 +12,7 @@ class Select_Multiple_Field extends Predefined_Options_Field {
 	 * @see set_multiple()
 	 * @var bool
 	 */
-	protected $multiple = false;
+	protected $tags = false;
 
 	/**
 	 * The options limit.
@@ -61,7 +61,7 @@ class Select_Multiple_Field extends Predefined_Options_Field {
 		wp_enqueue_script( 'carbon-field-select-multiple', $root_uri . '/assets/js/bundle.js', array( 'carbon-fields-boot' ) );
 
 		# Enqueue CSS
-		wp_enqueue_style( 'carbon-field-select-multiple', $root_uri . '/assets/css/field.css' );
+		wp_enqueue_style( 'carbon-field-select-multiple', $root_uri . '/assets/css/field.css', null, date('ymd-Gis') );
 	}
 
 	/**
@@ -72,11 +72,11 @@ class Select_Multiple_Field extends Predefined_Options_Field {
 	 */
 	public function set_value_from_input( $input ) {
 		if ( ! isset( $input[ $this->name ] ) ) {
-			$this->set_value( $this->multiple ? array() : '' );
+			$this->set_value( $this->tags ? array() : '' );
 		} else {
 			$value = stripslashes_deep( $input[ $this->name ] );
 			if ( is_array( $value ) ) {
-				$value = $this->multiple ? array_values( $value ) : ''; //$value[0];
+				$value = $this->tags ? array_values( $value ) : ''; //$value[0];
 			}
 			$this->set_value( $value );
 		}
@@ -94,7 +94,7 @@ class Select_Multiple_Field extends Predefined_Options_Field {
 			$field_data = array_merge( $field_data, array(
 				'limit_options' => $this->limit_options,
 				'options' => $this->parse_options( $this->get_options() ),
-				'multiple' => $this->multiple
+				'tags' => $this->tags
 			) );
 			return $field_data;
 		}
@@ -118,8 +118,8 @@ class Select_Multiple_Field extends Predefined_Options_Field {
 	 * @param  bool  $autoload
 	 * @return Field $this
 	 */
-	public function set_multiple( $multiple ) {
-		$this->multiple = $multiple;
+	public function use_tags( $tags = true ) {
+		$this->tags = $tags;
 		$this->set_value_set( new Value_Set( Value_Set::TYPE_MULTIPLE_VALUES ) );
 		return $this;
 	}
